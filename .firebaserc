@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "mge-beer-pro"
+    "default": "beerpro-3458c",
+    "beerpro": "beerpro-3458c"
   }
 }
