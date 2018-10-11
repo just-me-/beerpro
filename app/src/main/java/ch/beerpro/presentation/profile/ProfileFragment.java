@@ -1,8 +1,11 @@
 package ch.beerpro.presentation.profile;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,14 +115,28 @@ public class ProfileFragment extends Fragment {
 
     @OnClick(R.id.darkmodeswitch)
     public void handleDarkswitchClick(View view) {
+
         boolean on = ((Switch) view).isChecked();
+
         if(on) {
             Toast.makeText(getActivity(), "Nachtmodus aktiviert!",
-            Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getActivity(), "Nachtmodus deaktiviert!",
-            Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_LONG).show();
         }
+
+        // 2save
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("darkmode", (on ? "on" : "off"));
+        editor.apply();
+
+        // 2read
+        //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String name = preferences.getString("darkmode", "off");
+        //test - works :)
+        // Toast.makeText(getActivity(), "Juhuu"+name, Toast.LENGTH_LONG).show();
     }
 
     private void updateRatingsCount(List<Rating> ratings) {
