@@ -7,7 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
@@ -105,6 +108,18 @@ public class ProfileFragment extends Fragment {
     public void handleMyBeersClick(View view) {
         Intent intent = new Intent(getActivity(), MyBeersActivity.class);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.darkmodeswitch)
+    public void handleDarkswitchClick(View view) {
+        boolean on = ((Switch) view).isChecked();
+        if(on) {
+            Toast.makeText(getActivity(), "Nachtmodus aktiviert!",
+            Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getActivity(), "Nachtmodus deaktiviert!",
+            Toast.LENGTH_LONG).show();
+        }
     }
 
     private void updateRatingsCount(List<Rating> ratings) {
