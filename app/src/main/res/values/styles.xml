@@ -1,5 +1,29 @@
 <resources>
 
+    <attr name="colorPrimary" format="reference|color" />
+    <attr name="colorPrimaryLight" format="reference|color" />
+    <attr name="colorPrimaryDark" format="reference|color" />
+    <attr name="windowBackgroundColor" format="reference|color" />
+    <attr name="colorAccent" format="reference|color" />
+
+    <attr name="demoColor" format="reference|color" />
+    <style name="BaseActivity">
+    </style>
+    <style name="DarkActivity" parent="@style/BaseActivity">
+        <item name="colorPrimary">#0D2B35</item>
+        <item name="colorPrimaryLight">#8CABD9</item>
+        <item name="colorPrimaryDark">#0D4AA4</item>
+        <item name="windowBackgroundColor">#8E8E93</item>
+        <item name="colorAccent">#B58C2C</item>
+    </style>
+    <style name="LightActivity" parent="@style/BaseActivity">
+        <item name="colorPrimary">#fdd835</item>
+        <item name="colorPrimaryLight">#ffff6b</item>
+        <item name="colorPrimaryDark">#c6a700</item>
+        <item name="windowBackgroundColor">#fffde7</item>
+        <item name="colorAccent">#5d4037</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

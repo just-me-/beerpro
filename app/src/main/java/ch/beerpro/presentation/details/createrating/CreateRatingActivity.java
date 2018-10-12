@@ -1,8 +1,10 @@
 package ch.beerpro.presentation.details.createrating;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -62,6 +64,11 @@ public class CreateRatingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean darkmode = preferences.getBoolean("darkmode", false);
+        setTheme(darkmode ? R.style.DarkActivity : R.style.LightActivity);
+
         setContentView(R.layout.activity_rating);
         ButterKnife.bind(this);
         Nammu.init(this);

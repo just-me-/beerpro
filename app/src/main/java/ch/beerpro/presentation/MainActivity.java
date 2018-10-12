@@ -1,10 +1,14 @@
 package ch.beerpro.presentation;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
@@ -45,6 +49,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 2read
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean darkmode = preferences.getBoolean("darkmode", false);
+        setTheme(darkmode ? R.style.DarkActivity : R.style.LightActivity);
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 

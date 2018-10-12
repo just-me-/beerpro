@@ -19,10 +19,12 @@ import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.internal.Utils;
 import ch.beerpro.GlideApp;
 import ch.beerpro.R;
 import ch.beerpro.domain.models.Rating;
 import ch.beerpro.domain.models.Wish;
+import ch.beerpro.presentation.MainActivity;
 import ch.beerpro.presentation.MainViewModel;
 import ch.beerpro.presentation.profile.mybeers.MyBeersActivity;
 import ch.beerpro.domain.models.MyBeer;
@@ -60,6 +62,9 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.myWishlistCount)
     TextView myWishlistCount;
 
+    @BindView(R.id.darkmodeswitch)
+    View stupidButton;
+
     private MainViewModel model;
 
     public ProfileFragment() {
@@ -77,6 +82,11 @@ public class ProfileFragment extends Fragment {
         model.getMyWishlist().observe(this, this::updateWishlistCount);
         model.getMyRatings().observe(this, this::updateRatingsCount);
         model.getMyBeers().observe(this, this::updateMyBeersCount);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Boolean darkmode = preferences.getBoolean("darkmode", false);
+        Switch simpleSwitch = (Switch) stupidButton;
+        simpleSwitch.setChecked(darkmode);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -129,14 +139,19 @@ public class ProfileFragment extends Fragment {
         // 2save
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("darkmode", (on ? "on" : "off"));
+        editor.putBoolean("darkmode", on);
         editor.apply();
 
         // 2read
         //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String name = preferences.getString("darkmode", "off");
+        // String name = preferences.getString("darkmode", "off");
         //test - works :)
         // Toast.makeText(getActivity(), "Juhuu"+name, Toast.LENGTH_LONG).show();
+
+        // restart now this fragment
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+
     }
 
     private void updateRatingsCount(List<Rating> ratings) {

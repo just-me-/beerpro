@@ -2,8 +2,10 @@ package ch.beerpro.presentation.details;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -82,6 +84,11 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean darkmode = preferences.getBoolean("darkmode", false);
+        setTheme(darkmode ? R.style.DarkActivity : R.style.LightActivity);
+
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
@@ -122,6 +129,11 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
     public void showBottomSheetDialog() {
         View view = getLayoutInflater().inflate(R.layout.single_bottom_sheet_dialog, null);
         BottomSheetDialog dialog = new BottomSheetDialog(this);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean darkmode = preferences.getBoolean("darkmode", false);
+        setTheme(darkmode ? R.style.DarkActivity : R.style.LightActivity);
+
         dialog.setContentView(view);
         dialog.show();
     }
