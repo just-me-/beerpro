@@ -6,17 +6,14 @@
     <attr name="windowBackgroundColor" format="reference|color" />
     <attr name="colorAccent" format="reference|color" />
 
-    <attr name="demoColor" format="reference|color" />
-    <style name="BaseActivity">
-    </style>
-    <style name="DarkActivity" parent="@style/BaseActivity">
-        <item name="colorPrimary">#0D2B35</item>
-        <item name="colorPrimaryLight">#8CABD9</item>
-        <item name="colorPrimaryDark">#0D4AA4</item>
+    <style name="DarkActivity" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">#A1887F</item>
+        <item name="colorPrimaryLight">#8C6E63</item>
+        <item name="colorPrimaryDark">#6D4C41</item>
         <item name="windowBackgroundColor">#8E8E93</item>
-        <item name="colorAccent">#B58C2C</item>
+        <item name="colorAccent">#BF350D</item>
     </style>
-    <style name="LightActivity" parent="@style/BaseActivity">
+    <style name="LightActivity" parent="@style/AppTheme">
         <item name="colorPrimary">#fdd835</item>
         <item name="colorPrimaryLight">#ffff6b</item>
         <item name="colorPrimaryDark">#c6a700</item>

@@ -1,5 +1,7 @@
 package ch.beerpro.presentation.profile;
 
+import android.app.Activity;
+import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,6 +34,7 @@ import ch.beerpro.presentation.profile.myratings.MyRatingsActivity;
 import ch.beerpro.presentation.profile.mywishlist.WishlistActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -142,16 +145,11 @@ public class ProfileFragment extends Fragment {
         editor.putBoolean("darkmode", on);
         editor.apply();
 
-        // 2read
-        //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        // String name = preferences.getString("darkmode", "off");
-        //test - works :)
-        // Toast.makeText(getActivity(), "Juhuu"+name, Toast.LENGTH_LONG).show();
-
         // restart now this fragment
         Intent intent = new Intent(getActivity(), MainActivity.class);
+        Bundle b = new Bundle();
+        b.putInt("jumpTo", 2); intent.putExtras(b);
         startActivity(intent);
-
     }
 
     private void updateRatingsCount(List<Rating> ratings) {

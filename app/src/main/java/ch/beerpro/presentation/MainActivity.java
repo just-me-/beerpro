@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setLogo(R.drawable.beer_glass_icon);
 
+
         setupViewPager(viewPager, tabLayout);
 
         /*
@@ -74,6 +75,20 @@ public class MainActivity extends AppCompatActivity
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
+
+
+        Bundle b = getIntent().getExtras();
+        if(b != null)
+            selectPage(b.getInt("jumpTo"));
+    }
+
+    private void selectPage(int pageIndex) {
+        viewPager.setCurrentItem(pageIndex);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_search_black_24dp);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_people_black_24dp);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_person_black_24dp);
     }
 
     private void setupViewPager(ViewPager viewPager, TabLayout tabLayout) {
