@@ -1,7 +1,9 @@
 package ch.beerpro.presentation.profile.myratings;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Pair;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +34,11 @@ public class MyRatingsActivity extends AppCompatActivity implements OnMyRatingIt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean darkmode = preferences.getBoolean("darkmode", false);
+        setTheme(darkmode ? R.style.DarkActivity : R.style.LightActivity);
+
         setContentView(R.layout.activity_my_ratings);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);

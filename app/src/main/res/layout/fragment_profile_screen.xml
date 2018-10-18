@@ -197,7 +197,6 @@
                     android:layout_weight="1"
                     android:text="Kühlschrank" />
 
-
                 <TextView
                     android:id="@+id/myFridgeCount"
                     android:layout_width="wrap_content"
@@ -205,6 +204,36 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/default_margin"
                     android:text="0" />
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:id="@+id/darkmode"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:orientation="horizontal"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/minimum_margin"
+                    app:srcCompat="@drawable/ic_brightness_4_black_24dp" />
+
+                <Switch
+                    android:id="@+id/darkmodeswitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:layout_weight="1"
+                    android:text="Nachtmodus" />
+
             </LinearLayout>
         </LinearLayout>
 

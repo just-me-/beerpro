@@ -2,7 +2,9 @@ package ch.beerpro.presentation.profile.mywishlist;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +41,11 @@ public class WishlistActivity extends AppCompatActivity implements OnWishlistIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean darkmode = preferences.getBoolean("darkmode", false);
+        setTheme(darkmode ? R.style.DarkActivity : R.style.LightActivity);
+
         setContentView(R.layout.activity_my_wishlist);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
