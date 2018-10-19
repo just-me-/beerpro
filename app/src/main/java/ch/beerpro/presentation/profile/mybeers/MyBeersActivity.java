@@ -2,7 +2,9 @@ package ch.beerpro.presentation.profile.mybeers;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -26,6 +28,11 @@ public class MyBeersActivity extends AppCompatActivity implements OnMyBeerItemIn
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean darkmode = preferences.getBoolean("darkmode", false);
+        setTheme(darkmode ? R.style.DarkActivity : R.style.LightActivity);
+
         setContentView(R.layout.activity_my_beers);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);

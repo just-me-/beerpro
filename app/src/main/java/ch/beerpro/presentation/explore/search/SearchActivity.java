@@ -3,7 +3,9 @@ package ch.beerpro.presentation.explore.search;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -35,6 +37,11 @@ public class SearchActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean darkmode = preferences.getBoolean("darkmode", false);
+        setTheme(darkmode ? R.style.DarkActivity : R.style.LightActivity);
+
         setContentView(R.layout.activity_search);
 
         searchEditText = findViewById(R.id.searchEditText);
