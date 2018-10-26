@@ -24,6 +24,7 @@ import butterknife.OnClick;
 import butterknife.internal.Utils;
 import ch.beerpro.GlideApp;
 import ch.beerpro.R;
+import ch.beerpro.domain.models.FridgeItem;
 import ch.beerpro.domain.models.Rating;
 import ch.beerpro.domain.models.Wish;
 import ch.beerpro.presentation.MainActivity;
@@ -66,6 +67,9 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.myWishlistCount)
     TextView myWishlistCount;
 
+    @BindView(R.id.myFridgeCount)
+    TextView myFrdigeCount;
+
     @BindView(R.id.darkmodeswitch)
     View stupidButton;
 
@@ -84,6 +88,7 @@ public class ProfileFragment extends Fragment {
 
         model = ViewModelProviders.of(this).get(MainViewModel.class);
         model.getMyWishlist().observe(this, this::updateWishlistCount);
+        model.getMyFridge().observe(this, this::updateFridgeCount);
         model.getMyRatings().observe(this, this::updateRatingsCount);
         model.getMyBeers().observe(this, this::updateMyBeersCount);
 
@@ -165,6 +170,11 @@ public class ProfileFragment extends Fragment {
 
     private void updateWishlistCount(List<Wish> wishes) {
         myWishlistCount.setText(String.valueOf(wishes.size()));
+    }
+
+
+    private void updateFridgeCount(List<FridgeItem> fridgeItems) {
+        myWishlistCount.setText(String.valueOf(fridgeItems.size()));
     }
 
 }

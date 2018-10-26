@@ -38,7 +38,26 @@ public class FridgeRepository {
         return new FirestoreQueryLiveData<>(document, FridgeItem.class);
     }
 
-    public Task<Void> toggleUserFridgeItem(String userId, String itemId) {
+    public Task<Void> addUserFridgeItem(String userId, String itemId, int amount) {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        String fridgeItemId = FridgeItem.generateId(userId, itemId);
+
+        DocumentReference fridgeItemEntryQuery = db.collection(FridgeItem.COLLECTION).document(fridgeItemId);
+
+        return fridgeItemEntryQuery.get().continueWithTask(task -> {
+            if (task.isSuccessful()) {
+                int count = (int)task.getResult().get("count");
+                count+= amount;
+                return fridgeItemEntryQuery.set(new FridgeItem(userId, itemId, new Date(), count));
+            } else {
+                throw task.getException();
+            }
+        });
+    }
+
+    public Task<Void> deleteUserFridgeItem(String userId, String itemId) {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -49,8 +68,6 @@ public class FridgeRepository {
         return fridgeItemEntryQuery.get().continueWithTask(task -> {
             if (task.isSuccessful() && task.getResult().exists()) {
                 return fridgeItemEntryQuery.delete();
-            } else if (task.isSuccessful()) {
-                return fridgeItemEntryQuery.set(new FridgeItem(userId, itemId, new Date()));
             } else {
                 throw task.getException();
             }

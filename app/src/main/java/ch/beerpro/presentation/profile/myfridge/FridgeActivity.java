@@ -99,6 +99,6 @@ public class FridgeActivity extends AppCompatActivity implements OnFridgeItemInt
 
     @Override
     public void onFridgeItemClickedListener(Beer beer) {
-        model.toggleItemInFridge(beer.getId());
+        model.deleteItemFromFridge(beer.getId());
     }
 }

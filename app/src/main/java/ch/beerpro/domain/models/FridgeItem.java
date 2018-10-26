@@ -21,6 +21,7 @@ public class FridgeItem implements Entity {
     public static final String FIELD_USER_ID = "userId";
     public static final String FIELD_BEER_ID = "beerId";
     public static final String FIELD_ADDED_AT = "addedAt";
+    public static final String FIELD_COUNT = "count";
     //TODO +1 bonuspunkt Anzahl Biere die im Kühlschrank sind.
 
     /**
@@ -34,6 +35,8 @@ public class FridgeItem implements Entity {
     private String beerId;
     @NonNull
     private Date addedAt;
+    @NonNull
+    private int count;
 
     public static String generateId(String userId, String beerId) {
         return String.format("%s_%s", userId, beerId);
