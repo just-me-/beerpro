@@ -66,6 +66,9 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.myWishlistCount)
     TextView myWishlistCount;
 
+    @BindView(R.id.myFridgeCount)
+    TextView myFrdigeCount;
+
     @BindView(R.id.darkmodeswitch)
     View stupidButton;
 

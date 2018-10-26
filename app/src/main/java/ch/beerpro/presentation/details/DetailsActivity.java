@@ -46,7 +46,7 @@ import static ch.beerpro.presentation.utils.DrawableHelpers.setDrawableTint;
 
 public class DetailsActivity extends AppCompatActivity implements OnRatingLikedListener {
 
-    private int amount; //weil sonst inner class variable probleme macht
+    private int amount;
     public static final String ITEM_ID = "item_id";
     private static final String TAG = "DetailsActivity";
     @BindView(R.id.toolbar)
@@ -152,7 +152,6 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
 
                 //Dialog for number
