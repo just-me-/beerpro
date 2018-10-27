@@ -46,7 +46,7 @@ import static ch.beerpro.presentation.utils.DrawableHelpers.setDrawableTint;
 
 public class DetailsActivity extends AppCompatActivity implements OnRatingLikedListener {
 
-    private int amount;
+
     public static final String ITEM_ID = "item_id";
     private static final String TAG = "DetailsActivity";
     @BindView(R.id.toolbar)
@@ -120,6 +120,7 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
         model.getBeer().observe(this, this::updateBeer);
         model.getRatings().observe(this, this::updateRatings);
         model.getWish().observe(this, this::toggleWishlistView);
+//        model.getFridgeItem().observe(this, this::);
 
         recyclerView.setAdapter(adapter);
         addRatingBar.setOnRatingBarChangeListener(this::addNewRating);
@@ -155,8 +156,10 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
 
 
                 //Dialog for number
+
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(DetailsActivity.this);
-                builder.setTitle("Title");
+                builder.setTitle("Bitte Bestand im Kühlschrank angeben.");
 
                 // Set up the input
                 final EditText input = new EditText(DetailsActivity.this);
@@ -168,7 +171,10 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        amount = Integer.parseInt(input.getText().toString());
+                        int amount = Integer.parseInt(input.getText().toString());
+                        model.addItemToFridge(model.getBeer().getValue().getId(), amount);
+                        Toast t = Toast.makeText(DetailsActivity.this, "Es sind nun " + amount + " Bier im Kühlschrank", Toast.LENGTH_SHORT);
+                        t.show();
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -180,11 +186,6 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
 
                 builder.show();
 
-                /////
-
-                model.addItemToFridge(model.getBeer().getValue().getId(), amount);
-                Toast t = Toast.makeText(DetailsActivity.this, amount + "Bier added", Toast.LENGTH_SHORT);
-                t.show();
             }
         });
     }

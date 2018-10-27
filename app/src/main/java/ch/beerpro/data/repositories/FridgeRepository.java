@@ -46,15 +46,17 @@ public class FridgeRepository {
 
         DocumentReference fridgeItemEntryQuery = db.collection(FridgeItem.COLLECTION).document(fridgeItemId);
 
+
+
         return fridgeItemEntryQuery.get().continueWithTask(task -> {
-            if (task.isSuccessful()) {
-                int count = (int)task.getResult().get("count");
-                count+= amount;
-                return fridgeItemEntryQuery.set(new FridgeItem(userId, itemId, new Date(), count));
-            } else {
-                throw task.getException();
-            }
+
+                return fridgeItemEntryQuery.set(new FridgeItem(userId, itemId, new Date(), amount));
+
         });
+
+
+
+
     }
 
     public Task<Void> deleteUserFridgeItem(String userId, String itemId) {

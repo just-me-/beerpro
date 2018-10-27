@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import ch.beerpro.data.repositories.*;
 import ch.beerpro.domain.models.Beer;
+import ch.beerpro.domain.models.FridgeItem;
 import ch.beerpro.domain.models.Rating;
 import ch.beerpro.domain.models.Wish;
 import com.google.android.gms.tasks.Task;
@@ -17,6 +18,7 @@ public class DetailsViewModel extends ViewModel implements CurrentUser {
     private final LiveData<Beer> beer;
     private final LiveData<List<Rating>> ratings;
     private final LiveData<Wish> wish;
+    private final LiveData<FridgeItem> fridgeItem;
 
     private final LikesRepository likesRepository;
     private final WishlistRepository wishlistRepository;
@@ -33,6 +35,7 @@ public class DetailsViewModel extends ViewModel implements CurrentUser {
         MutableLiveData<String> currentUserId = new MutableLiveData<>();
         beer = beersRepository.getBeer(beerId);
         wish = wishlistRepository.getMyWishForBeer(currentUserId, getBeer());
+        fridgeItem = fridgeRepository.getMyFridgeItemForBeer(currentUserId, getBeer());
         ratings = ratingsRepository.getRatingsForBeer(beerId);
         currentUserId.setValue(getCurrentUser().getUid());
     }
@@ -43,6 +46,9 @@ public class DetailsViewModel extends ViewModel implements CurrentUser {
 
     public LiveData<Wish> getWish() {
         return wish;
+    }
+    public LiveData<FridgeItem> getFridgeItem() {
+        return fridgeItem;
     }
 
     public LiveData<List<Rating>> getRatings() {
@@ -61,7 +67,7 @@ public class DetailsViewModel extends ViewModel implements CurrentUser {
         return wishlistRepository.toggleUserWishlistItem(getCurrentUser().getUid(), itemId);
     }
 
-    public Task<Void> addItemToFridge(String itemId, int amount) {
+    public Task<Void> addItemToFridge(String itemId, int amount){
         return fridgeRepository.addUserFridgeItem(getCurrentUser().getUid(), itemId, amount);
     }
 

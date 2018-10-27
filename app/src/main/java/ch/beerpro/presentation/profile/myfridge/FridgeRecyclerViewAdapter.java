@@ -75,6 +75,9 @@ public class FridgeRecyclerViewAdapter extends ListAdapter<Pair<FridgeItem, Beer
         @BindView(R.id.addedAt)
         TextView addedAt;
 
+        @BindView(R.id.count)
+        TextView count;
+
         @BindView(R.id.removeFromFridge)
         Button remove;
 
@@ -98,6 +101,9 @@ public class FridgeRecyclerViewAdapter extends ListAdapter<Pair<FridgeItem, Beer
             String formattedDate =
                     DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT).format(fridgeItem.getAddedAt());
             addedAt.setText(formattedDate);
+
+            count.setText(String.valueOf(fridgeItem.getCount()));
+
             remove.setOnClickListener(v -> listener.onFridgeItemClickedListener(item));
         }
 
