@@ -1,16 +1,22 @@
 package ch.beerpro.presentation.details;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -29,6 +35,7 @@ import ch.beerpro.domain.models.Rating;
 import ch.beerpro.domain.models.Wish;
 import ch.beerpro.presentation.details.createrating.CreateRatingActivity;
 import com.bumptech.glide.Glide;
+
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -38,6 +45,7 @@ import java.util.List;
 import static ch.beerpro.presentation.utils.DrawableHelpers.setDrawableTint;
 
 public class DetailsActivity extends AppCompatActivity implements OnRatingLikedListener {
+
 
     public static final String ITEM_ID = "item_id";
     private static final String TAG = "DetailsActivity";
@@ -112,6 +120,7 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
         model.getBeer().observe(this, this::updateBeer);
         model.getRatings().observe(this, this::updateRatings);
         model.getWish().observe(this, this::toggleWishlistView);
+//        model.getFridgeItem().observe(this, this::);
 
         recyclerView.setAdapter(adapter);
         addRatingBar.setOnRatingBarChangeListener(this::addNewRating);
@@ -130,12 +139,55 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
         View view = getLayoutInflater().inflate(R.layout.single_bottom_sheet_dialog, null);
         BottomSheetDialog dialog = new BottomSheetDialog(this);
 
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean darkmode = preferences.getBoolean("darkmode", false);
         setTheme(darkmode ? R.style.DarkActivity : R.style.LightActivity);
 
         dialog.setContentView(view);
         dialog.show();
+
+        Button b = view.findViewById(R.id.addToFridge);
+
+
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                //Dialog for number
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(DetailsActivity.this);
+                builder.setTitle("Bitte Bestand im Kühlschrank angeben.");
+
+                // Set up the input
+                final EditText input = new EditText(DetailsActivity.this);
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                builder.setView(input);
+
+                // Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int amount = Integer.parseInt(input.getText().toString());
+                        model.addItemToFridge(model.getBeer().getValue().getId(), amount);
+                        Toast t = Toast.makeText(DetailsActivity.this, "Es sind nun " + amount + " Bier im Kühlschrank", Toast.LENGTH_SHORT);
+                        t.show();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+
+            }
+        });
     }
 
     private void updateBeer(Beer item) {
@@ -183,6 +235,7 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
             wishlist.setChecked(false);
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
