@@ -70,9 +70,7 @@ public class BeerCategoriesFragment extends Fragment {
          */
         recyclerView.setNestedScrollingEnabled(false);
 
-        /*
-         * TODO Spacings should really be extracted into dimension resources.
-         * */
+
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacingInPixels, false, 0));
 

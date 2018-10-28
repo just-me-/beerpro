@@ -7,10 +7,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
@@ -67,18 +70,32 @@ public class SearchActivity extends AppCompatActivity
         viewPager.setSaveFromParentEnabled(false);
         searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
         myBeersViewModel = ViewModelProviders.of(this).get(MyBeersViewModel.class);
+
+        Intent intent = getIntent();
+        String searchText = intent.getStringExtra("categoryName");
+        if (!(searchText == null)) {
+            searchEditText.setText(searchText);
+            searchEditText.setSelection(searchText.length());
+            adapter.setShowSuggestions(false);
+            searchViewModel.setSearchTerm(searchText);
+            searchEditText.clearFocus();
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        }
     }
 
     private void handleSearch(String text) {
+        adapter.setShowSuggestions(Strings.isNullOrEmpty(text));
         searchViewModel.setSearchTerm(text);
         myBeersViewModel.setSearchTerm(text);
-        adapter.setShowSuggestions(Strings.isNullOrEmpty(text));
         adapter.notifyDataSetChanged();
     }
 
     private void addSearchTermToUserHistory(String text) {
         searchViewModel.addToSearchHistory(text);
     }
+
+
 
     @Override
     public void onSearchResultListItemSelected(View animationSource, Beer item) {

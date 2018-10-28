@@ -66,6 +66,8 @@ public class MyBeersRecyclerViewAdapter extends ListAdapter<MyBeer, MyBeersRecyc
         holder.bind(entry, listener);
     }
 
+
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.name)

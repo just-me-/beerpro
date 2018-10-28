@@ -1,4 +1,16 @@
 package ch.beerpro.data.repositories;
 
-public class Note {
+import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Note implements Serializable {
+
+    private String note;
+    private String beerId;
 }
