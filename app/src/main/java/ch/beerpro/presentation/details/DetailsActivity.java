@@ -18,6 +18,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
@@ -34,7 +35,6 @@ import ch.beerpro.domain.models.Beer;
 import ch.beerpro.domain.models.Rating;
 import ch.beerpro.domain.models.Wish;
 import ch.beerpro.presentation.details.createrating.CreateRatingActivity;
-import com.bumptech.glide.Glide;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -49,6 +49,7 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
 
     public static final String ITEM_ID = "item_id";
     private static final String TAG = "DetailsActivity";
+    public static String m_Text = "";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -84,6 +85,12 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+
+    @BindView(R.id.textViewNoteTitle)
+    TextView noteTitleView;
+
+    @BindView(R.id.textViewNote)
+    TextView noteView;
 
     private RatingsRecyclerViewAdapter adapter;
 
@@ -124,6 +131,25 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
 
         recyclerView.setAdapter(adapter);
         addRatingBar.setOnRatingBarChangeListener(this::addNewRating);
+
+        updateNote();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        m_Text = preferences.getString(getIntent().getExtras().getString(ITEM_ID), "");
+        updateNote();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(getIntent().getExtras().getString(ITEM_ID), m_Text);
+        editor.commit();
     }
 
     private void addNewRating(RatingBar ratingBar, float v, boolean b) {
@@ -143,6 +169,38 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean darkmode = preferences.getBoolean("darkmode", false);
         setTheme(darkmode ? R.style.DarkActivity : R.style.LightActivity);
+
+        Button addPrivateNoteButton = view.findViewById(R.id.addPrivateNote);
+        addPrivateNoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(DetailsActivity.this);
+                builder.setTitle("neue Notiz");
+
+                // Set up the input
+                final EditText input = new EditText(DetailsActivity.this);
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                builder.setView(input);
+
+                // Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DetailsActivity.m_Text = input.getText().toString();
+                        updateNote();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
 
         dialog.setContentView(view);
         dialog.show();
@@ -245,6 +303,17 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void updateNote() {
+        if (m_Text == null || m_Text.equals("")) {
+            noteTitleView.setVisibility(View.GONE);
+            noteView.setVisibility(View.GONE);
+        } else {
+            noteTitleView.setVisibility(View.VISIBLE);
+            noteView.setVisibility(View.VISIBLE);
+            noteView.setText(m_Text);
         }
     }
 }
